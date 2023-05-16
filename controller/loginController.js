@@ -23,9 +23,9 @@ try
     if( userLogin  )
     {
  
-     res.status(404).json(
+     res.status(200).json(
        {
-          status: "User found , SignUp with new User .." ,
+          msg: "User found , SignUp with new User .." ,
        });
  
  
@@ -57,7 +57,7 @@ try
 
       res.status(201).json(
        {
-          status: 'user create successfully' ,
+          msg: 'user create successfully' ,
           data : user  , 
            token: token  
          
@@ -70,9 +70,9 @@ try
   else
   {
 
-    res.status(404).json(
+    res.status(200).json(
       {
-         status: "Enter valid email address " ,
+         msg: "Enter valid email address " ,
       });
   }
 
@@ -87,10 +87,10 @@ try
 catch(e)
 {
 
-    res.status(402).json(
+    res.status(404).json(
         {
 
-          status : e.message ,
+          msg : e.message ,
           data : "error in login , try again "  
 
         });
@@ -118,9 +118,10 @@ module.exports.signIn = async(req, res )=> {
 
 
     if (!user) {
-       res.status(404).send(
+       res.status(200).send(
         {
-          msg: " User not Found"
+          msg: " User not Found" ,
+          data : user
         })
     } 
     else 
@@ -161,7 +162,7 @@ module.exports.signIn = async(req, res )=> {
       } 
       else
       {
-        res.status(400).send({
+        res.status(200).send({
           msg: "Invalid Password , please try again"
      });
 
@@ -176,7 +177,7 @@ module.exports.signIn = async(req, res )=> {
 
 else
 {
-    res.status(404).json(
+    res.status(200).json(
       {
          status: "Enter valid email address " ,
       });
@@ -225,10 +226,10 @@ else
   
   catch(e)
    {
-      res.status(402).json(
+      res.status(404).json(
           {
   
-            status : e.message ,
+            msg : e.message ,
             data : "error in login ,please try again "  
   
           });
@@ -254,7 +255,7 @@ else
   
   
       if (!user) {
-         res.status(404).send(
+         res.status(200).send(
           {
             msg: " User not Found"
           })
@@ -284,7 +285,7 @@ else
 
             res.status(200).json(
               {
-                'status': 'success',
+                'msg': 'success',
                 'data': 'logOut successfully...'
               }
             );
@@ -294,7 +295,7 @@ else
           else
           {
 
-            res.status(401).json({
+            res.status(200).json({
               'msg': 'login Required' 
             });
 
@@ -307,7 +308,7 @@ else
         } 
         else
         {
-          res.status(400).send({
+          res.status(200).send({
             msg: "Invalid Password , please try again"
        });
   
@@ -322,9 +323,9 @@ else
   
   else
   {
-      res.status(404).json(
+      res.status(200).json(
         {
-           status: "Enter valid email address " ,
+           msg: "Enter valid email address " ,
         });
     
   }
@@ -337,10 +338,10 @@ else
     
     catch(e)
      {
-        res.status(402).json(
+        res.status(404).json(
             {
     
-              status : e.message ,
+              msg : e.message ,
               data : "error in login ,please try again "  
     
             });

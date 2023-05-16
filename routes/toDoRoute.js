@@ -16,6 +16,8 @@ route.get('/allSubNotes' , TODO.getAllSubNotes );
 route.get('/subNote/:id' , TODO.getSubNote );
 // route.get('/subNote' , TODO.getSubNote );
 
+route.put('/editNote/:id' , TODO.editToDo );
+route.delete('/removeNote/:id' , TODO.removeToDo );
 
 
 

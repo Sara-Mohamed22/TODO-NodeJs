@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 const TODO = require('.././models/toDoModel'); 
 const User = require('.././models/loginModel');
 const jwt = require('jsonwebtoken');
@@ -82,6 +82,141 @@ async( req, res)=>{
 };
 
 
+module.exports.editToDo = async(req,res)=>{
+
+  try
+  {
+
+    const authHeader =
+    req.body.token ||
+    req.query.token ||
+    req.headers['x-access-token'] || 
+    req.headers['authorization'] ;
+
+   const token = `${authHeader}`.trim().split('Bearer ')[1];
+
+   const  decode  = jwt.verify(
+    token ,
+    process.env.SECRET
+
+     );
+
+
+   if(token)
+   {
+   
+    /// mongoose.Types.ObjectId => to cast string to objectId 
+
+    const newToDo = 
+
+    await TODO.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id.trim())  , req.body , {new: true }  ); 
+
+      console.log('siri '+ newToDo);
+
+    res.status(200).json({
+      'success' : true ,
+      status : "update successfully!",
+      'data' : newToDo
+     });
+
+    }
+   
+   else
+   {
+     res.status(403).json(
+        {
+
+         'success' : false ,
+          'msg' : 'Login Required'
+
+        });
+   }
+
+  }
+  
+ catch(e)
+ {
+  res.status(404).json(
+    {
+      'success': false ,
+      'msg' : e.message
+    }
+  )
+ }
+
+
+
+};
+
+
+
+module.exports.removeToDo = async(req,res)=>{
+
+  try
+  {
+
+    const authHeader =
+    req.body.token ||
+    req.query.token ||
+    req.headers['x-access-token'] || 
+    req.headers['authorization'] ;
+
+   const token = `${authHeader}`.trim().split('Bearer ')[1];
+
+   const  decode  = jwt.verify(
+    token ,
+    process.env.SECRET
+
+     );
+
+
+   if(token)
+   {
+   
+    /// mongoose.Types.ObjectId => to cast string to objectId 
+
+    const newToDo = 
+
+    await TODO.findByIdAndDelete(mongoose.Types.ObjectId(req.params.id.trim())  ); 
+
+      console.log('siri '+ newToDo);
+
+    res.status(200).json({
+      'success' : true ,
+      status : "delete successfully!",
+     });
+
+    }
+   
+   else
+   {
+     res.status(403).json(
+        {
+
+         'success' : false ,
+          'msg' : 'Login Required'
+
+        });
+   }
+
+  }
+  
+ catch(e)
+ {
+  res.status(404).json(
+    {
+      'success': false ,
+      'msg' : e.message
+    }
+  )
+ }
+
+
+
+};
+
+
+
 
 module.exports.getAllNotes = async(req,res)=>{
   
@@ -101,9 +236,9 @@ module.exports.getAllNotes = async(req,res)=>{
       const allNotes = await TODO.find({});
 
 
-      res.status(404).json({
+      res.status(200).json({
 
-       'status': 'success' ,
+       'msg': 'success' ,
        'length' : allNotes.length ,
        'data': allNotes  
 
@@ -113,7 +248,7 @@ module.exports.getAllNotes = async(req,res)=>{
     else
     {
       res.status(401).json({
-        'status': 'login required ' ,
+        'msg': 'login required ' ,
       });
     }
     
@@ -124,7 +259,7 @@ module.exports.getAllNotes = async(req,res)=>{
   catch(e)
   {
     res.status(404).json({
-      'status': 'fail' ,
+      // 'status': 'fail' ,
       'msg': e.message
     });
   }
